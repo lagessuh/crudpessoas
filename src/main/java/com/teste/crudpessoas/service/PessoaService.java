@@ -45,6 +45,11 @@ public class PessoaService {
         pessoaRepository.delete(pessoa);
     }
 
+    public List<Pessoa> buscarPorNome(String nome) {
+        return pessoaRepository.findByNomeContainingIgnoreCase(nome);
+    }
+
+
 
 
 }

@@ -122,5 +122,21 @@ class PessoaServiceTest {
         verify(pessoaRepository, never()).save(any());
     }
 
+    @Test
+    void deveBuscarPessoasPorNome() {
+        List<Pessoa> pessoas = List.of(
+                new Pessoa(1L, "Lucas", "12345678900", LocalDate.of(1990, 1, 1), "lucas@email.com"),
+                new Pessoa(2L, "Luciana", "98765432100", LocalDate.of(1992, 2, 2), "luciana@email.com")
+        );
+
+        when(pessoaRepository.findByNomeContainingIgnoreCase("luc")).thenReturn(pessoas);
+
+        List<Pessoa> resultado = pessoaService.buscarPorNome("luc");
+
+        assertEquals(2, resultado.size());
+        verify(pessoaRepository, times(1)).findByNomeContainingIgnoreCase("luc");
+    }
+
+
 
 }

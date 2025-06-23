@@ -76,4 +76,10 @@ public String editar(@PathVariable Long id, Model model) {
         return "redirect:/pessoas/listar";
     }
 
+    @GetMapping("/buscar")
+    public String buscarPorNome(@RequestParam String nome, Model model) {
+        model.addAttribute("pessoas", pessoaService.buscarPorNome(nome));
+        return "pessoas/listar";
+    }
+
 }

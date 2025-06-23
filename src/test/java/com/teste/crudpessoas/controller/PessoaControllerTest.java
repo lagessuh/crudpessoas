@@ -34,6 +34,13 @@ class PessoaControllerTest {
     }
 
     @Test
+    void paginaMenu_deveRetornarIndex() {
+        String view = pessoaController.paginaMenu();
+        assertEquals("index", view);
+    }
+
+
+    @Test
     void listar_deveAdicionarPessoasAoModeloERetornarView() {
         List<Pessoa> pessoas = List.of(
                 new Pessoa(1L, "João", "12345678900", LocalDate.of(1990, 1, 1), "joao@email.com")
@@ -51,7 +58,7 @@ class PessoaControllerTest {
         String view = pessoaController.novaPessoa(model);
 
         verify(model).addAttribute(eq("pessoa"), any(Pessoa.class));
-        assertEquals("pessoas/formulario", view);
+        assertEquals("pessoas/form-novo", view);
     }
 
     @Test
@@ -63,7 +70,7 @@ class PessoaControllerTest {
         String view = pessoaController.salvar(pessoa, bindingResult);
 
         verify(pessoaService).salvar(pessoa);
-        assertEquals("redirect:/pessoas", view);
+        assertEquals("redirect:/pessoas/listar", view);
     }
 
     @Test
@@ -74,7 +81,7 @@ class PessoaControllerTest {
         String view = pessoaController.salvar(pessoa, bindingResult);
 
         verify(pessoaService, never()).salvar(any());
-        assertEquals("pessoas/formulario", view);
+        assertEquals("pessoas/form-novo", view);
     }
 
     @Test
@@ -86,7 +93,7 @@ class PessoaControllerTest {
         String view = pessoaController.editar(1L, model);
 
         verify(model).addAttribute("pessoa", pessoa);
-        assertEquals("pessoas/formulario", view);
+        assertEquals("pessoas/form-editar", view);
     }
 
     @Test
@@ -97,7 +104,7 @@ class PessoaControllerTest {
         String view = pessoaController.atualizar(1L, pessoa, bindingResult);
 
         verify(pessoaService).atualizar(1L, pessoa);
-        assertEquals("redirect:/pessoas", view);
+        assertEquals("redirect:/pessoas/listar", view);
     }
 
     @Test
@@ -108,7 +115,7 @@ class PessoaControllerTest {
         String view = pessoaController.atualizar(1L, pessoa, bindingResult);
 
         verify(pessoaService, never()).atualizar(anyLong(), any());
-        assertEquals("pessoas/formulario", view);
+        assertEquals("pessoas/form-editar", view);
     }
 
     @Test
@@ -116,6 +123,22 @@ class PessoaControllerTest {
         String view = pessoaController.deletar(1L);
 
         verify(pessoaService).deletar(1L);
-        assertEquals("redirect:/pessoas", view);
+        assertEquals("redirect:/pessoas/listar", view);
+    }
+
+    @Test
+    void buscarPorNome_deveRetornarListaFiltrada() {
+        String nomeBuscado = "ana";
+        List<Pessoa> resultadoBusca = List.of(
+                new Pessoa(1L, "Ana Maria", "12345678900", LocalDate.of(1980, 4, 1), "ana@email.com")
+        );
+
+        when(pessoaService.buscarPorNome(nomeBuscado)).thenReturn(resultadoBusca);
+
+        String view = pessoaController.buscarPorNome(nomeBuscado, model);
+
+        verify(pessoaService).buscarPorNome(nomeBuscado);
+        verify(model).addAttribute("pessoas", resultadoBusca);
+        assertEquals("pessoas/listar", view);
     }
 }
