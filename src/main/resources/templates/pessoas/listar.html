@@ -18,7 +18,7 @@
 </nav>
 <div class="container">
     <h2 class="mb-4">Pessoas Cadastradas</h2>
-    <form th:action="@{/pessoas}" method="get" class="row g-3 mb-3">
+    <form th:action="@{/pessoas/listar}" method="get" class="row g-3 mb-3">
         <div class="col-auto">
             <input type="text" name="busca" class="form-control" placeholder="Buscar por nome, CPF ou e-mail" th:value="${busca}">
         </div>

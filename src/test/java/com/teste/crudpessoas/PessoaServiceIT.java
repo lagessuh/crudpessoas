@@ -1,4 +1,4 @@
-package com.teste.crudpessoas.service;
+package com.teste.crudpessoas;
 import com.teste.crudpessoas.model.Pessoa;
 import com.teste.crudpessoas.repository.PessoaRepository;
 import com.teste.crudpessoas.service.PessoaService;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 @AutoConfigureTestDatabase
 @Transactional
-class PessoaServiceTeste {
+class PessoaServiceIT {
 
     @Autowired
     private PessoaService pessoaService;

@@ -47,11 +47,13 @@ class PessoaControllerTest {
         );
         when(pessoaService.listarTodas()).thenReturn(pessoas);
 
-        String view = pessoaController.listar(model);
+        String view = pessoaController.listar(null, model); // ajuste aqui
 
         verify(model).addAttribute("pessoas", pessoas);
+        verify(model).addAttribute("busca", null); // importante: o método também adiciona "busca"
         assertEquals("pessoas/listar", view);
     }
+
 
     @Test
     void novaPessoa_deveRetornarFormularioComPessoaNova() {

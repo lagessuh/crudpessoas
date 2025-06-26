@@ -24,8 +24,13 @@ public class PessoaController {
     }
 
     @GetMapping("/listar")
-    public String listar(Model model) {
-        model.addAttribute("pessoas", pessoaService.listarTodas());
+    public String listar(@RequestParam(required = false) String busca, Model model) {
+        if (busca != null && !busca.isBlank()) {
+            model.addAttribute("pessoas", pessoaService.buscarPorNome(busca));
+        } else {
+            model.addAttribute("pessoas", pessoaService.listarTodas());
+        }
+        model.addAttribute("busca", busca); // para manter o valor no input
         return "pessoas/listar";
     }
 
