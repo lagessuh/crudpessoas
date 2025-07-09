@@ -18,6 +18,9 @@
 </nav>
 <div class="container">
     <h2 class="mb-4">Cadastrar Pessoa</h2>
+    <div th:if="${erroCadastro}" class="alert alert-danger" role="alert">
+        <p th:text="${erroCadastro}"></p>
+    </div>
     <form th:action="@{/pessoas}" th:object="${pessoa}" method="post" class="row g-3">
         <div class="col-md-6">
             <label for="nome" class="form-label">Nome</label>

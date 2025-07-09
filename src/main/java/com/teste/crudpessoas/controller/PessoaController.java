@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/pessoas")
@@ -48,13 +49,32 @@ public String deletar(@PathVariable Long id) {
         return "pessoas/form-novo";
     }
 
+//    @PostMapping
+//    public String salvar(@Valid @ModelAttribute Pessoa pessoa, BindingResult result) {
+//        if (result.hasErrors()) {
+//            return "pessoas/form-novo";
+//        }
+//        pessoaService.salvar(pessoa);
+//        return "redirect:/pessoas/listar";
+//    }
+
     @PostMapping
-    public String salvar(@Valid @ModelAttribute Pessoa pessoa, BindingResult result) {
+    public String salvar(@Valid @ModelAttribute Pessoa pessoa,
+                         BindingResult result,
+                         Model model,
+                         RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "pessoas/form-novo";
         }
-        pessoaService.salvar(pessoa);
-        return "redirect:/pessoas/listar";
+
+        try {
+            String mensagem = pessoaService.salvar(pessoa);
+            redirectAttributes.addFlashAttribute("mensagemSucesso", mensagem);
+            return "redirect:/pessoas/listar";
+        } catch (RuntimeException e) {
+            model.addAttribute("erroCadastro", e.getMessage());
+            return "pessoas/form-novo";
+        }
     }
 
 //    @GetMapping("/editar/{id}")

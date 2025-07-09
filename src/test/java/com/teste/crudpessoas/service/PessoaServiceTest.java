@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 @AutoConfigureTestDatabase
 @Transactional
-class PessoaServiceTeste {
+class PessoaServiceIT {
 
     @Autowired
     private PessoaService pessoaService;
@@ -27,8 +27,8 @@ class PessoaServiceTeste {
 
     @Test
     void deveRejeitarCadastroDeCpfDuplicadoNaPratica() {
-        Pessoa primeira = new Pessoa(null, "Lucas", "12345678900", LocalDate.of(1990, 1, 1), "lucas@email.com");
-        Pessoa duplicada = new Pessoa(null, "João", "12345678900", LocalDate.of(1992, 5, 10), "joao@email.com");
+        Pessoa primeira = new Pessoa(null, "Lucas", "02974947166", LocalDate.of(1990, 1, 1), "lucas@email.com");
+        Pessoa duplicada = new Pessoa(null, "João", "02974947166", LocalDate.of(1992, 5, 10), "joao@email.com");
 
         pessoaService.salvar(primeira); // CPF salvo com sucesso
 

@@ -18,6 +18,9 @@
 </nav>
 <div class="container">
     <h2 class="mb-4">Pessoas Cadastradas</h2>
+    <div th:if="${mensagemSucesso}" class="alert alert-success" role="alert">
+        <p th:text="${mensagemSucesso}"></p>
+    </div>
     <form th:action="@{/pessoas/listar}" method="get" class="row g-3 mb-3">
         <div class="col-auto">
             <input type="text" name="busca" class="form-control" placeholder="Buscar por nome, CPF ou e-mail" th:value="${busca}">
